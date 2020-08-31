@@ -72,7 +72,7 @@ You can deploy the code and run distributed experiments from your driver machine
 user1@driver: ./deploy.sh user1
 # now the binary executables have been deployed on all the machiens
 
-# run servers; change the user1 to your own username
+# run servers
 ./deploy/exp1-archipelago-azure/run_server.sh user1
 # feel free to type enters to type the next command
 
