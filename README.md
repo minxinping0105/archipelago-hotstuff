@@ -94,7 +94,7 @@ The following commands show how we conduct a basic throughput-latency experiment
 ```shell
 # run install_deps.sh on all your machines
 user1@{machine_name}: {some_path}/install_deps.sh
-# this will also create ~/hotstuff and ~/hotstuff/hotstuff directories
+# this will also create ~/hotstuff and ~/hotstuff/hotstuff directories on {machine_name}
 ```
 You can deploy the code and run distributed experiments from your driver machine.
 
