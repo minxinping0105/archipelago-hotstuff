@@ -56,11 +56,12 @@ user1@driver: ./deploy/exp1-archipelago-local/data.sh user1
 The Python script `hotstuff/scripts/gen_conf.py` generates the configuration files. First, you need to modify the IP addresses of the server nodes.
 
 ```python
+    # in hotstuff/scripts/gen_conf.py
     ...
-    if args.ips is None:
         # datacenter
         ips = ['10.0.0.4', '10.0.0.5', '10.0.0.6', '10.0.0.7']
         # modify this ips variable to your own server list
+    ...
 ```
 > :warning: **[WARNING]** We assume that different servers have different IP addresses.
 
