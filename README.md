@@ -1,6 +1,6 @@
 # Archipelago-Hotstuff
 
-This repo contains our implementation of Archipelago on top of HotStuff. Please refer to our OSDI'20 paper and contact Yunhao Zhang(yz2327@cornell.edu) for questions about this repo.
+This repo contains our implementation of Archipelago on top of HotStuff. Please refer to our OSDI'20 paper and contact Yunhao Zhang(yz2327@cornell.edu) for questions about this repo. To run experiments, please go through the following 3 steps one by one.
 
 # Step1: build and run on a single machine
 
