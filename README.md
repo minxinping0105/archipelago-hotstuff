@@ -40,9 +40,7 @@ user1@driver: ./build.sh
 # run clients
 ./deploy/exp1-archipelago-local/run_client.sh user1 4 20
 # 4 is the number of clients (4 is a minimum for hotstuff)
-# 30 is the duration (30 seconds)
-# feel free to type enters to type the next command
-
+# 20 is the duration (20 seconds)
 # wait for about 20-30 seconds, scripts will terminate
 
 # collect the experiment data
