@@ -68,10 +68,10 @@ You can deploy the code and run distributed experiments from your driver machine
 # all these IPs are included in the file ~/hotstuff/hosts
 
 # we assume that code has been built successfully on the driver machine
+# make sure that driver can ssh directly to all the machine
 user1@driver: ./deploy.sh user1
 # now the binary executables have been deployed on all the machiens
 
-# make sure that driver can ssh directly to all the machine
 # run servers; change the user1 to your own username
 ./deploy/exp1-archipelago-azure/run_server.sh user1
 # feel free to type enters to type the next command
