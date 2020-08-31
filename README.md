@@ -52,6 +52,6 @@ user1@driver: ./build.sh
 # client0.exec.log is the execution phase log
 ```
 
-# Step1: build and run on a distributed cluster
+# Step2: build and run on a distributed cluster
 
 TBD
