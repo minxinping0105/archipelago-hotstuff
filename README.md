@@ -51,3 +51,7 @@ user1@driver: ./build.sh
 # client0.order.log is the ordering phase log
 # client0.exec.log is the execution phase log
 ```
+
+# Step1: build and run on a distributed cluster
+
+TBD
