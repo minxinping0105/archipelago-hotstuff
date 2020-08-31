@@ -69,7 +69,7 @@ You can deploy the code and run distributed experiments from your driver machine
 
 # we assume that code has been built successfully on the driver machine
 # make sure that driver can ssh directly to all the machine
-user1@driver: user1@driver: ./deploy.sh user1
+user1@driver: ./deploy.sh user1
 # now the binary executables have been deployed on all the machiens
 
 # run servers
