@@ -52,7 +52,7 @@ user1@driver: ./build.sh
 
 # Step2: build and run on a distributed cluster
 
-> :warning: **[WARNING]** The following commands only apply to our experiment environment; please follow step3 and generate the config files for your environment before following these commands.
+> :warning: **[WARNING]** Scripts in this repo only apply to our experiment environment; please follow step3 and generate the config files for your environment before following these commands.
 
 The following commands show how we conduct a basic throughput-latency experiment. First, you need to install dependencies on all machines.
 
