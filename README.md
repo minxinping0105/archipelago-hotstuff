@@ -13,7 +13,7 @@ user1@driver: cd
 # clone the repo
 user1@driver: git clone https://github.com/yhzhang0128/archipelago-hotstuff.git
 
-# name it as hotstuff (future scripts will use this directory name)
+# name it as hotstuff (future commands and scripts will assume this directory name)
 user1@driver: mv archipelago-hotstuff hotstuff
 
 # install the dependencies
