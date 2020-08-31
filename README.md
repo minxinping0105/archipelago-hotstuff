@@ -39,7 +39,7 @@ user1@driver: ./build.sh
 
 # run clients
 ./deploy/exp1-archipelago-local/run_client.sh user1 4 20
-# 4 is the number of clienst (4 is a minimum for hotstuff)
+# 4 is the number of clients (4 is a minimum for hotstuff)
 # 30 is the duration (30 seconds)
 # feel free to type enters to type the next command
 
