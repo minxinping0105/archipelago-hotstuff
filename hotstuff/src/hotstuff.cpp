@@ -432,7 +432,7 @@ HotStuffBase::HotStuffBase(uint32_t blk_size,
 
     pn.reg_handler(salticidae::generic_bind(&HotStuffBase::server_consensus_request_cmd_handler, this, _1, _2));
 
-    pn.reg_handler(salticidae::generic_bind(&HotStuffBase::server_consensus_reponse_cmd_handler, this, _1, _2));
+    //pn.reg_handler(salticidae::generic_bind(&HotStuffBase::server_consensus_reponse_cmd_handler, this, _1, _2));
 
     pn.reg_conn_handler(salticidae::generic_bind(&HotStuffBase::conn_handler, this, _1, _2));
 
@@ -580,13 +580,13 @@ void HotStuffBase::start(
     if (ec_loop)
         ec.dispatch();
 
-    cmd_noresp_pending.reg_handler(ec, [this](cmd_noresp_queue_t &q) {
-            uint256_t cmd_hash;
-            while (q.try_dequeue(cmd_hash)) {
-                exec_command_noresp(cmd_hash);                
-            }
-            return true;
-    });
+    // cmd_noresp_pending.reg_handler(ec, [this](cmd_noresp_queue_t &q) {
+    //         uint256_t cmd_hash;
+    //         while (q.try_dequeue(cmd_hash)) {
+    //             exec_command_noresp(cmd_hash);                
+    //         }
+    //         return true;
+    // });
         
     cmd_pending.reg_handler(ec, [this](cmd_queue_t &q) {
         std::pair<uint256_t, commit_cb_t> e;

@@ -203,8 +203,8 @@ class HotStuffBase: public HotStuffCore {
     using Net = PeerNetwork<opcode_t>;
     // Archipelago makes `pn` in public because it needs to reg_handler to servers in archipelago_app.cpp
     Net pn;
-    using cmd_noresp_queue_t = salticidae::MPSCQueueEventDriven<uint256_t>;
-    cmd_noresp_queue_t cmd_noresp_pending;
+    /* using cmd_noresp_queue_t = salticidae::MPSCQueueEventDriven<uint256_t>; */
+    /* cmd_noresp_queue_t cmd_noresp_pending; */
 
     using commit_cb_t = std::function<void(const Finality &)>;
     using ordering1_cb_t = std::function<void(const Ordering1Finality &)>;
