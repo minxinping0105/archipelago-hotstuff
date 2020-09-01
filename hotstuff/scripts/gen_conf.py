@@ -14,7 +14,7 @@ if __name__ == "__main__":
     parser.add_argument('--tls-keygen', type=str, default='./hotstuff-tls-keygen')
     parser.add_argument('--nodes', type=str, default='nodes.txt')
     parser.add_argument('--block-size', type=int, default=100)
-    parser.add_argument('--pace-maker', type=str, default='dummy')
+    parser.add_argument('--pace-maker', type=str, default='rr')
     args = parser.parse_args()
 
     if args.ips is None:
