@@ -1,6 +1,6 @@
 # Archipelago-Hotstuff
 
-This repo contains our implementation of Archipelago on top of HotStuff. Please refer to our OSDI'20 paper and contact Yunhao Zhang(yz2327@cornell.edu) for questions about this repo.
+This repo contains our implementation of Archipelago on top of HotStuff. Please refer to our OSDI'20 paper and contact Yunhao Zhang(yz2327@cornell.edu) for questions about this repo. To run experiments, please go through the following 3 steps one by one.
 
 # Step1: build and run on a single machine
 
@@ -13,7 +13,7 @@ user1@driver: cd
 # clone the repo
 user1@driver: git clone https://github.com/yhzhang0128/archipelago-hotstuff.git
 
-# name it as hotstuff (future scripts will use this directory name)
+# name it as hotstuff (future commands and scripts will assume this directory name)
 user1@driver: mv archipelago-hotstuff hotstuff
 
 # install the dependencies
@@ -50,27 +50,62 @@ user1@driver: ./deploy/exp1-archipelago-local/data.sh user1
 # client0.exec.log is the execution phase log
 ```
 
-# Step2: build and run on a distributed cluster
 
-> :warning: **[WARNING]** Scripts in this repo only apply to our experiment environment; please follow step3 and generate the config files for your environment before following these commands.
+# Step2: generate configuration files for your distributed environment
+
+The Python script `hotstuff/scripts/gen_conf.py` generates the configuration files. First, you need to modify the IP addresses of the server nodes.
+
+```python
+    # in hotstuff/scripts/gen_conf.py
+    ...
+        # datacenter
+        ips = ['10.0.0.4', '10.0.0.5', '10.0.0.6', '10.0.0.7']
+        # modify this ips variable to your own server list
+    ...
+```
+> :warning: **[WARNING]** We assume that different servers have different IP addresses.
+
+Then generate your configuration files and replace the old ones.
+
+```shell
+user1@driver: cd ~/hotstuff/hotstuff
+
+# run the Python script
+user1@driver: python scripts/gen_conf.py
+# the configuration files are generated in `./conf-gen` directory. 
+
+# replace the old configuration files of experiment1
+user1@driver: cp ./conf-gen/* ./deploy/exp1-archipelago-azure/conf-archipelago/
+
+# modify the client and server host IPs
+user1@driver: vim ./deploy/exp1-archipelago-azure/client.hosts
+user1@driver: vim ./deploy/exp1-archipelago-azure/server.hosts
+```
+
+You are now ready to run experiment1 in your distributed environment. Steps for other experiments are similar.
+
+
+# Step3: build and run in a distributed environment
+
+> :warning: **[WARNING]** Make sure that you have followed step2 carefully.
 
 The following commands show how we conduct a basic throughput-latency experiment. First, you need to install dependencies on all machines.
 
 ```shell
 # run install_deps.sh on all your machines
 user1@{machine_name}: {some_path}/install_deps.sh
-# this will also create ~/hotstuff and ~/hotstuff/hotstuff directories
+# this will also create ~/hotstuff and ~/hotstuff/hotstuff directories on {machine_name}
 ```
 You can deploy the code and run distributed experiments from your driver machine.
 
 ```shell
-# we deploy clients on 10.0.0.8 and servers on 10.0.0.4, 10.0.0.5, 10.0.0.6 and 10.0.0.7
-# all these IPs are included in the file ~/hotstuff/hosts
+# current scripts deploy clients on 10.0.0.8 and servers on 10.0.0.4, 10.0.0.5, 10.0.0.6 and 10.0.0.7
+# these IPs are included in the file ~/hotstuff/hosts, ./deploy/exp1-archipelago-azure/client.hosts and ./deploy/exp1-archipelago-azure/server.hosts
 
 # we assume that code has been built successfully on the driver machine
 # make sure that driver can ssh directly to all the machine
 user1@driver: ./deploy.sh user1
-# now the binary executables have been deployed on all the machiens
+# now the binary executables have been deployed on all the machines
 
 # run servers
 user1@driver: ./deploy/exp1-archipelago-azure/run_server.sh user1
@@ -84,6 +119,3 @@ user1@driver: ./deploy/exp1-archipelago-azure/run_client.sh user1 4 30
 user1@driver: ./deploy/exp1-archipelago-azure/data.sh user1
 # the experiment data is now in client0.exec.log and client0.order.log
 ```
-# Step3: generate the config file for your experiment environment
-
-TBD
