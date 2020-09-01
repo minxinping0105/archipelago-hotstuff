@@ -102,6 +102,11 @@ You can deploy the code and run distributed experiments from your driver machine
 # current scripts deploy clients on 10.0.0.8 and servers on 10.0.0.4, 10.0.0.5, 10.0.0.6 and 10.0.0.7
 # these IPs are included in the file ~/hotstuff/hosts, ./deploy/exp1-archipelago-azure/client.hosts and ./deploy/exp1-archipelago-azure/server.hosts
 
+# prepare directory for log and data
+user1@driver: cd ~/hotstuff/hotstuff
+user1@driver: mkdir ./deploy/exp1-archipelago-azure/log
+user1@driver: mkdir ./deploy/exp1-archipelago-azure/data
+
 # we assume that code has been built successfully on the driver machine
 # make sure that driver can ssh directly to all the machine
 user1@driver: ./deploy.sh user1
