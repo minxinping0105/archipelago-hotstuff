@@ -109,10 +109,12 @@ user1@driver: mkdir ./deploy/exp1-archipelago-azure/data
 
 # we assume that code has been built successfully on the driver machine
 # make sure that driver can ssh directly to all the machine
+user1@driver: cd ~/hotstuff
 user1@driver: ./deploy.sh user1
 # now the binary executables have been deployed on all the machines
 
 # run servers
+user1@driver: cd ~/hotstuff/hotstuff
 user1@driver: ./deploy/exp1-archipelago-azure/run_server.sh user1
 # feel free to type enters to type the next command
 
