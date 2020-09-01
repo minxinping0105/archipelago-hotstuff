@@ -24,12 +24,14 @@ user1@driver: ./install_deps.sh
 Below are the build and run commands.
 
 ```shell
-# goto ~/hotstuff/hotstuff
-user1@driver: cd ~/hotstuff/hotstuff
-
 # build the code
+user1@driver: cd ~/hotstuff/hotstuff
 user1@driver: ./build.sh
-# it should build successfully
+
+# prepare directory for log and data
+user1@driver: cd ~/hotstuff/hotstuff
+user1@driver: mkdir ./deploy/exp1-archipelago-local/log
+user1@driver: mkdir ./deploy/exp1-archipelago-local/data
 
 # make sure that you can ssh directly to your local machine
 # i.e., ssh user1@127.0.0.1 works without typing passwords or something
