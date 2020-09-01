@@ -29,7 +29,6 @@ user1@driver: cd ~/hotstuff/hotstuff
 user1@driver: ./build.sh
 
 # prepare directory for log and data
-user1@driver: cd ~/hotstuff/hotstuff
 user1@driver: mkdir ./deploy/exp1-archipelago-local/log
 user1@driver: mkdir ./deploy/exp1-archipelago-local/data
 
