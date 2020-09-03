@@ -78,6 +78,7 @@ using HotStuff = hotstuff::HotStuffSecp256k1;
 class HotStuffApp: public HotStuff {
     /** for Archipelago */
     using LedgerNet = salticidae::MsgNetwork<opcode_t>;
+    uint32_t stable_period;
     ReplicaID idx;
     uint32_t cmd_cnt;
     uint32_t exec_count, exec_sent;
@@ -155,6 +156,7 @@ class HotStuffApp: public HotStuff {
 
     public:
     HotStuffApp(uint32_t blk_size,
+                uint32_t stable_period,
                 double stat_period,
                 double impeach_timeout,
                 ReplicaID idx,
@@ -207,6 +209,7 @@ int main(int argc, char **argv) {
     elapsed.start();
 
     auto opt_blk_size = Config::OptValInt::create(1);
+    auto opt_stable_period = Config::OptValInt::create(50);
     auto opt_parent_limit = Config::OptValInt::create(-1);
     auto opt_stat_period = Config::OptValDouble::create(10);
     auto opt_replicas = Config::OptValStrVec::create();
@@ -229,6 +232,7 @@ int main(int argc, char **argv) {
     auto opt_notls = Config::OptValFlag::create(false);
 
     config.add_opt("block-size", opt_blk_size, Config::SET_VAL);
+    config.add_opt("stable-period", opt_stable_period, Config::SET_VAL);
     config.add_opt("parent-limit", opt_parent_limit, Config::SET_VAL);
     config.add_opt("stat-period", opt_stat_period, Config::SET_VAL);
     config.add_opt("replica", opt_replicas, Config::APPEND, 'a', "add an replica to the list");
@@ -313,18 +317,19 @@ int main(int argc, char **argv) {
         .burst_size(opt_cliburst->get())
         .nworker(opt_clinworker->get());
     papp = new HotStuffApp(opt_blk_size->get(),
-                        opt_stat_period->get(),
-                        opt_imp_timeout->get(),
-                        idx,
-                        hotstuff::from_hex(opt_privkey->get()),
-                        plisten_addr,
-                        NetAddr("0.0.0.0", client_port),
-                        std::move(pmaker),
-                        ec,
-                        opt_nworker->get(),
-                        repnet_config,
-                        clinet_config,
-                        ledger_replicas);
+                           opt_stable_period->get(),
+                           opt_stat_period->get(),
+                           opt_imp_timeout->get(),
+                           idx,
+                           hotstuff::from_hex(opt_privkey->get()),
+                           plisten_addr,
+                           NetAddr("0.0.0.0", client_port),
+                           std::move(pmaker),
+                           ec,
+                           opt_nworker->get(),
+                           repnet_config,
+                           clinet_config,
+                           ledger_replicas);
     std::vector<std::tuple<NetAddr, bytearray_t, bytearray_t>> reps;
     for (auto &r: replicas)
     {
@@ -353,21 +358,22 @@ int main(int argc, char **argv) {
 }
 
 HotStuffApp::HotStuffApp(uint32_t blk_size,
-                        double stat_period,
-                        double impeach_timeout,
-                        ReplicaID _idx,
-                        const bytearray_t &raw_privkey,
-                        NetAddr plisten_addr,
-                        NetAddr clisten_addr,
-                        hotstuff::pacemaker_bt pmaker,
-                        const EventContext &ec,
-                        size_t nworker,
-                        const Net::Config &repnet_config,
+                         uint32_t stable_period,
+                         double stat_period,
+                         double impeach_timeout,
+                         ReplicaID _idx,
+                         const bytearray_t &raw_privkey,
+                         NetAddr plisten_addr,
+                         NetAddr clisten_addr,
+                         hotstuff::pacemaker_bt pmaker,
+                         const EventContext &ec,
+                         size_t nworker,
+                         const Net::Config &repnet_config,
                          const ClientNetwork<opcode_t>::Config &clinet_config,
                          const std::vector<NetAddr>& _ledger_replicas):
     HotStuff(blk_size, _idx, raw_privkey,
             plisten_addr, std::move(pmaker), ec, nworker, repnet_config),
-    idx(_idx), cmd_cnt(0), exec_count(0), exec_sent(0), exec_last_batch_clock(0),
+    stable_period(stable_period), idx(_idx), cmd_cnt(0), exec_count(0), exec_sent(0), exec_last_batch_clock(0),
     ledger_replicas(_ledger_replicas), 
     stat_period(stat_period),
     impeach_timeout(impeach_timeout),
@@ -460,7 +466,7 @@ void HotStuffApp::client_ordering2_request_cmd_handler(MsgOrdering2ReqCmd &&msg,
 
     if (timestamp < stable_point) {
         // TODO: implement this code if assert actually happens
-        HOTSTUFF_LOG_ERROR("network anomaly detected -- please consider increase the blk_size config parameter");
+        HOTSTUFF_LOG_ERROR("network anomaly detected -- please consider increase the stable-point config parameter");
         assert(false);
     }
 
@@ -487,8 +493,8 @@ void HotStuffApp::client_ordering2_request_cmd_handler(MsgOrdering2ReqCmd &&msg,
     if (exec_last_batch_clock == 0) {
         // start the timer for the first time
         exec_last_batch_clock = curr_clock_us;
-    } else if (exec_last_batch_clock + blk_size * 1000 < curr_clock_us) {
-        // blk_size milliseconds have passed on timer
+    } else if (exec_last_batch_clock + stable_period * 1000 < curr_clock_us) {
+        // stable_period milliseconds have passed on timer
         exec_last_batch_clock = curr_clock_us;
 
         // the pipeline design of HotStuff requires 4 commands to be issued at the same time for the first command to commit -- the following definitions are place-holder commands pushing the actual consensus command in the protocol to commit.        
@@ -500,7 +506,7 @@ void HotStuffApp::client_ordering2_request_cmd_handler(MsgOrdering2ReqCmd &&msg,
         uint32_t commit_set_size = commit_set.size();
         std::sort(commit_set.begin() + stable_point_idx, commit_set.end(), commit_set_cmp);
         uint32_t next_stable_point_idx = stable_point_idx;
-        uint64_t batch_end_timestamp = commit_set[commit_set_size - 1].first.second - blk_size * 1000;
+        uint64_t batch_end_timestamp = commit_set[commit_set_size - 1].first.second - stable_period * 1000;
         for(; next_stable_point_idx < commit_set_size; next_stable_point_idx++) {
             if (commit_set[next_stable_point_idx].first.second > batch_end_timestamp)
                 break;
@@ -523,7 +529,6 @@ void HotStuffApp::client_ordering2_request_cmd_handler(MsgOrdering2ReqCmd &&msg,
                 uint32_t end = exec_client_rsp[commit_set_hash].second;
 
                 for (uint32_t i = start; i < end; i++) {
-                    // send message to blk_size of commit_set
                     try {
                         cn.send_msg(MsgConsensusRespClientCmd(commit_set[i].first.first), commit_set[i].second);
                     } catch (std::exception &err) {
