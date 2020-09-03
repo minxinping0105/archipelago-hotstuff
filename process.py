@@ -2,22 +2,23 @@ import sys
 from os import listdir
 from os.path import isfile, join
 
-if (len(sys.argv) != 2):
-    print "Usage: process.py {result dir}"
+if (len(sys.argv) != 3):
+    print "Usage: process.py {order or exec} {result dir}"
     exit()
 
-files = [f for f in listdir("./" + sys.argv[1]) if isfile(join("./" + sys.argv[1], f))]
+files = [f for f in listdir("./" + sys.argv[2]) if isfile(join("./" + sys.argv[2], f))]
 #print onlyfiles
 
 count = 0
 latencies = []
 average = 0.0
 for file in files:
-    f = open("./" + sys.argv[1] + "/" + file, "r")
-    for line in f.readlines():
-        count = count + 1
-        latencies.append(float(line.split()[-1]))
-        average = average + float(line.split()[-1])
+    if sys.argv[1] in file:
+        f = open("./" + sys.argv[2] + "/" + file, "r")
+        for line in f.readlines():
+            count = count + 1
+            latencies.append(float(line.split()[-1]))
+            average = average + float(line.split()[-1])
 
 latencies.sort()
 
