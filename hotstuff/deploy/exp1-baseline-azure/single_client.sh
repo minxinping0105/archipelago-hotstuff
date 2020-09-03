@@ -15,6 +15,6 @@ then
 
 else
 
-./examples/hotstuff-client $base_dir/conf/hotstuff.gen.conf $base_dir/log/client$1.log --cid $1 --iter -1 --max-async 4
+./examples/hotstuff-client $base_dir/conf/hotstuff.gen.conf $base_dir/log/client$1.log --cid $1 --iter -1 --max-async 8000
 
 fi

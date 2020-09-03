@@ -602,10 +602,10 @@ void HotStuffBase::start(
                 e.second(Finality(id, 0, 0, 0, cmd_hash, uint256_t()));
             if (proposer != get_id()) continue;
             cmd_pending_buffer.push(cmd_hash);
-            if (cmd_pending_buffer.size() >= 1)
+            if (cmd_pending_buffer.size() >= blk_size)
             {
                 std::vector<uint256_t> cmds;
-                for (uint32_t i = 0; i < 1; i++)
+                for (uint32_t i = 0; i < blk_size; i++)
                 {
                     cmds.push_back(cmd_pending_buffer.front());
                     cmd_pending_buffer.pop();
