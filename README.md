@@ -213,3 +213,43 @@ user1@driver: python process.py exec hotstuff/deploy/exp1-baseline-azure/data
 
 ### Validating claim2
 
+|                             |  validation |
+|-----------------------------| -----------|
+| Archipelago’s throughput degrades similarly to its baselines when *n* increases | step2.1    |
+|  Archipelago can scale up each node for higher throughput      |  step2.2   |
+
+#### step2.1
+
+> :warning: **[WARNING]** You need to generate the configuration files for all different setups (i.e., n=4, n=7, n=10, n=13, n=16) and put them into the corresponding directory `hotstuff/hotstuff/deploy/exp2-baseline-azure/conf/{server number}`.
+
+Every point in Figure 6 is a separate experiment. The commands for baseline HotStuff are:
+
+```shell
+user1@driver: cd ~/hotstuff/hotstuff
+user1@driver: ./deploy/exp2-baseline-azure/run_server.sh user1 {server number}
+user1@driver: ./deploy/exp2-baseline-azure/run_client.sh user1 4 30 {server number}
+user1@driver: ./deploy/exp2-baseline-azure/data.sh user1
+user1@driver: cd ~/hotstuff
+# process data
+user1@driver: python process.py client hotstuff/deploy/exp2-baseline-azure/data
+```
+
+Change the `{server number}` above to 4, 7, 10, 13 and 16 to conduct the experiments on different number of nodes. The commands for Archipelago-HotStuff are:
+
+```shell
+user1@driver: cd ~/hotstuff/hotstuff
+user1@driver: ./deploy/exp2-archipelago-azure/run_server.sh user1 {server number}
+user1@driver: ./deploy/exp1-archipelago-azure/run_client.sh user1 4 30 {server number}
+user1@driver: ./deploy/exp1-archipelago-azure/data.sh user1
+user1@driver: cd ~/hotstuff
+# process data of ordering phase
+user1@driver: python process.py order hotstuff/deploy/exp2-baseline-azure/data
+# process data of execution phase
+user1@driver: python process.py exec hotstuff/deploy/exp2-baseline-azure/data
+```
+
+Change the `{server number}` above to 4, 7, 10, 13 and 16 to conduct the experiments on different number of nodes.
+
+#### step2.2
+
+
