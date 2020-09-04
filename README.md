@@ -213,13 +213,13 @@ user1@driver: python process.py exec hotstuff/deploy/exp1-archipelago-azure/data
 
 - modify file `hotstuff/deploy/exp1-baseline-azure/single_client.sh` changing `--max-async` to 8000 (i.e., make sure that `max-async` is at least 4 times of `block-size`; this is the livenes requirement specific to HotStuff)
 
-- redo step1.1; deploy with `deploy.sh` again since configuration is modified.
+- redo **step1.1**; deploy with `deploy.sh` again since configuration is modified.
 
 #### step1.4
 
 - modify file `hotstuff/deploy/exp1-archipelago-azure/conf-archipelago/hotstuff.gen.conf` changing `block-size` to 700
 
-- redo step1.2; deploy with `deploy.sh` again since configuration is modified.
+- redo **step1.2**; deploy with `deploy.sh` again since configuration is modified.
 
 > :warning: **[WARNING]** Sometimes OS may kill Archipelago before it finishes writing the log file, leading to problems in `process.py`. You may run the experiments again or see troubleshooting for help.
 
