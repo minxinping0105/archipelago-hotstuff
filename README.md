@@ -196,3 +196,20 @@ user1@driver: python process.py order hotstuff/deploy/exp1-baseline-azure/data
 user1@driver: python process.py exec hotstuff/deploy/exp1-baseline-azure/data
 ```
 
+### step1.3
+
+- modify file `hotstuff/hotstuff/deploy/exp1-baseline-azure/conf/hotstuff.gen.conf` changing `block-size` to 2000
+
+- modify file `hotstuff/hotstuff/deploy/exp1-baseline-azure/single_client.sh` changing `--max-async` to 8000
+
+- redo step1.1
+
+### step1.4
+
+- modify file `hotstuff/hotstuff/deploy/exp1-archipelago-azure/conf-archipelago/hotstuff.gen.conf` changing `block-size` to 700
+
+- redo step1.2
+
+
+### Validating claim2
+
