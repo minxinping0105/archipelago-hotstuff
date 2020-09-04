@@ -43,7 +43,7 @@ user1@driver: mkdir ./deploy/exp1-archipelago-local/log
 user1@driver: mkdir ./deploy/exp1-archipelago-local/data
 
 # make sure that you can ssh directly to your local machine
-# i.e., ssh user1@127.0.0.1 works without typing passwords or something
+# i.e., ssh user1@127.0.0.1 works without typing passwords (see ssh-copy-id)
 # run servers; change user1 below to your own username
 user1@driver: ./deploy/exp1-archipelago-local/run_server.sh user1
 # feel free to type some enters to continue
@@ -62,7 +62,7 @@ user1@driver: ./deploy/exp1-archipelago-local/data.sh user1
 # ./deploy/exp1-archipelago-local/data/client0.exec.log is the consensus phase data
 ```
 
-> :warning: **[WARNING]** Remember to prepare the `log` and `data` directories for **all** future experiments. Remember to replace the `user1` in the commands to your own username as well.
+> :warning: **[WARNING]** Remember to prepare the `log` and `data` directories for **all** future experiments. Remember to replace the `user1` in the commands to your own username.
 
 ### generate configuration files
 
