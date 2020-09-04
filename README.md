@@ -309,22 +309,22 @@ The experiments are the same as **step1.3** and **step1.4**, but you need to gen
 
 ## Troubleshooting
 
-### `data.sh` does not retrieve any log files
+### data.sh does not retrieve any log files
 
 The reason is likely to be missing `log` or `data` directories. Make sure that you have created them in the experiment-specific directory and have deployed them to all the machines defined in `hosts`.
 
-### the log files exist but there are no log entries in them
+### log files exist but they are empty files
 
-The reason is likely to be wrong configuration (e.g., wrong IP addresses or wrong order of IPs in server.hosts). Compare the configuration files you generated and the files we have provided in this repo, including `hotstuff/deploy/{exp-dir}/conf*/*`, `hotstuff/deploy/{exp-dir}/client.hosts` and `hotstuff/deploy/{exp-dir}/server.hosts`. 
+The reason is likely to be wrong configuration (e.g., wrong IP addresses or wrong order of IPs in file `server.hosts`). Carefully compare the configuration files you generated with the files we have provided in this repo, including `hotstuff/deploy/{exp-dir}/conf*/*`, `hotstuff/deploy/{exp-dir}/client.hosts` and `hotstuff/deploy/{exp-dir}/server.hosts`. 
 
-### the ordering phase log file contains many more entries than my consensus phase log
+### the ordering phase log contains many more entries than the consensus phase log
 
-The reason is likely to be insufficient hardware resources causing thread-scheduling starvation. This is likely to happen for local experiments since it simulates at least 4 server nodes on the same machine. But sometimes this can also happen in a distributed setting. Potential solutions are
+The reason is likely to be insufficient hardware resources causing thread-scheduling starvation. This is likely to happen for local experiments since it simulates at least 4 server nodes on the same machine. But occasionally this can also happen in a distributed experiment. Potential solutions are
 
 - run the experiment again
-- increase the `stable-period` parameter in the configuration
 - decrease the `block-size` parameter in the configuration
-- if possible, use more CPU cores for each server machine (we use at least 4 cores) and increase the size of thread pool (search for `nworker` in `hotstuff/examples/archipelago_app.cpp`)
-- if the latencies recorded in the consensus phase log show a routine pattern (e.g., repeat in a latency range), you may calculate the 50%, 90% and 99% latencies with `process.py` ignoring the length of the log file
+- increase the `stable-period` parameter in the configuration (note that this will also increase the consensus latency of Archipelago)
+- if possible, use more CPU cores for each server machine (we use at least 4 cores) and increase the size of the thread pools (search for `nworker` in `hotstuff/examples/archipelago_app.cpp`)
+- if the latencies recorded in the consensus phase log show a routine pattern (e.g., repeat in a latency range), you could calculate the 50%, 90% and 99% latencies with `process.py` ignoring the length of the log file
 
-Another possibility is that the log file is too large (e.g., >150MB) and the OS decides to kill Archipelago before it finishes writing all the log entries. In this case, you may need to read the last few lines of `hotstuff/examples/archipelago_client.cpp`. Specifically, `elapsed.size()` and `elapsed_exec.size()` should be the number of log entries in the two log files.
+Another possibility is that the log file is too large (e.g., >150MB) and the OS decides to kill Archipelago before it finishes writing all the log entries. In this case, you may need to read the last few lines of `hotstuff/examples/archipelago_client.cpp` where the client writes log files. Specifically, `elapsed.size()` and `elapsed_exec.size()` should be the number of log entries in the two log files.
