@@ -14,15 +14,17 @@ if __name__ == "__main__":
     parser.add_argument('--tls-keygen', type=str, default='./hotstuff-tls-keygen')
     parser.add_argument('--nodes', type=str, default='nodes.txt')
     parser.add_argument('--block-size', type=int, default=1)
-    parser.add_argument('--stable-period', type=int, default=50)
+    parser.add_argument('--stable-period', type=int, default=40)
     parser.add_argument('--pace-maker', type=str, default='rr')
     args = parser.parse_args()
 
     if args.ips is None:
         # local
         #ips = ['127.0.0.1']
-        # datacenter
+        # datacenter small
         ips = ['10.0.0.5', '10.0.0.6', '10.0.0.7', '10.0.0.8']
+        # datacenter large
+        #ips = ['10.0.0.5', '10.0.0.6', '10.0.0.7', '10.0.0.8', '10.0.0.9', '10.0.0.10', '10.0.0.11', '10.0.0.12', '10.0.0.13', '10.0.0.14', '10.0.0.15', '10.0.0.16', '10.0.0.17', '10.0.0.18', '10.0.0.19', '10.0.0.20']
         # geo-distributed
         # ips = ['137.135.57.40',
         #        '137.135.57.40',
