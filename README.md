@@ -175,9 +175,10 @@ We made 4 claims which can be found in Figure 3 of our submission. We copy-and-p
 In claim1, we say that Archipelago achieves higher throughput than baseline (1479 > 526; 160060 > 92933) at the cost of increased latency (87.1 > 7.1). But latencies are comparable (83.8 vs. 97.1) when batching commands (beta is the batch size). 
 
 
+#### step1.1
+
 > :warning: **[WARNING]**  Generate and replace the configuration files in `hotstuff/deploy/exp1-baseline-azure`. Make directories `log` and `data` accordingly. Then deploy with `deploy.sh` before you proceed.
 
-#### step1.1
 ```shell
 user1@driver: cd ~/hotstuff/hotstuff
 user1@driver: ./deploy/exp1-baseline-azure/run_server.sh user1
@@ -191,6 +192,9 @@ user1@driver: python process.py client hotstuff/deploy/exp1-baseline-azure/data
 Note: throughput is the number of transactions reported by process.py divided by 30 (i.e., the time interval of the experiment).
 
 #### step1.2
+
+> :warning: **[WARNING]**  Generate and replace the configuration files in `hotstuff/deploy/exp1-archipelago-azure`. Make directories `log` and `data` accordingly. Then deploy with `deploy.sh` before you proceed.
+
 ```shell
 user1@driver: cd ~/hotstuff/hotstuff
 user1@driver: ./deploy/exp1-archipelago-azure/run_server.sh user1
