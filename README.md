@@ -220,7 +220,7 @@ user1@driver: python process.py exec hotstuff/deploy/exp1-archipelago-azure/data
 
 #### step2.1
 
-> :warning: **[WARNING]** You need to generate the configuration files for all different setups (i.e., n=4, n=7, n=10, n=13, n=16) and put them into the corresponding directory `hotstuff/hotstuff/deploy/exp2-baseline-azure/conf/{server number}` and `hotstuff/hotstuff/deploy/exp2-archipelago-azure/conf-archipelago/{server number}`.
+> :warning: **[WARNING]** You need to generate the configuration files for all different setups (i.e., n=4, n=7, n=10, n=13, n=16) and put them into the corresponding directory `hotstuff/hotstuff/deploy/exp2-baseline-azure/conf/{server number}` and `hotstuff/hotstuff/deploy/exp2-archipelago-azure/conf-archipelago/{server number}`. Generate and replace the configuration files before you proceed.
 
 Every point in Figure 6 is a separate experiment. The commands for baseline HotStuff are:
 
@@ -230,7 +230,6 @@ user1@driver: ./deploy/exp2-baseline-azure/run_server.sh user1 {server number}
 user1@driver: ./deploy/exp2-baseline-azure/run_client.sh user1 4 30 {server number}
 user1@driver: ./deploy/exp2-baseline-azure/data.sh user1
 user1@driver: cd ~/hotstuff
-# process data
 user1@driver: python process.py client hotstuff/deploy/exp2-baseline-azure/data
 ```
 
@@ -242,14 +241,42 @@ user1@driver: ./deploy/exp2-archipelago-azure/run_server.sh user1 {server number
 user1@driver: ./deploy/exp2-archipelago-azure/run_client.sh user1 4 30 {server number}
 user1@driver: ./deploy/exp2-archipelago-azure/data.sh user1
 user1@driver: cd ~/hotstuff
-# process data of ordering phase
 user1@driver: python process.py order hotstuff/deploy/exp2-archipelago-azure/data
-# process data of execution phase
-user1@driver: python process.py exec hotstuff/deploy/exp2-archipelago-azure/data
 ```
 
 Change the `{server number}` above to 4, 7, 10, 13 and 16 to conduct the experiments on different number of nodes.
 
 #### step2.2
 
+> :warning: **[WARNING]** Read the example configuration files first before you generate them. Specifically, read `hotstuff/hotstuff/deploy/exp3-archipelago-azure/conf-archipelago/{server number}/{machine number}/hotstuff.gen.conf`. Generate and replace the configuration files before you proceed.
 
+The commands for Figure 7 are:
+
+```shell
+user1@driver: cd ~/hotstuff/hotstuff
+user1@driver: ./deploy/exp3-archipelago-azure/run_server.sh user1 {server number} {machine per server}
+user1@driver: ./deploy/exp3-archipelago-azure/run_client.sh user1 4 30 {server number} {machine per server}
+user1@driver: ./deploy/exp3-archipelago-azure/data.sh user1
+user1@driver: cd ~/hotstuff
+user1@driver: python process.py order hotstuff/deploy/exp3-archipelago-azure/data
+```
+where the parameters are 
+
+|  {server number}  |  {machine per server}  |
+|-----------------------------| -----------|
+| 4 | 1   |
+| 4 | 2   |
+| 4 | 3   |
+| 4 | 4   |
+| 7 | 1   |
+| 7 | 2   |
+
+### Validating claim3
+
+This is the same as **step1.1** and **step1.2**, but we use the `nload` tool to monitor the network usage of a single server node.
+
+### Validating claim4
+
+This is the same as **step1.3** and **step1.4**, but you need to generate the configuration files for your geo-distributed setting. Make sure that the IPs in your configurations are accessible to each other (e.g., there could be firewall issues).
+
+## Troubleshooting
