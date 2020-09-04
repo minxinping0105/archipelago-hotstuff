@@ -234,7 +234,7 @@ We conduct the expriments of Figure 6 in our new cloud instance and below is the
 | n=13 | 311                         | 12.6                | 796                            | 4.9                          |
 | n=16 | 270                         | 14.6                | 690                            | 5.7                          |
 
-We say that Archipelago's throughput degrades similarly to its baseline because 581/270=2.15 and 1579/690=2.29 -- the ratio is similar.
+Claim2 says that Archipelago's throughput degrades similarly to its baseline because 581/270=2.15 and 1579/690=2.29 -- the ratio is similar.
 
 > :warning: **[WARNING]** You need to generate the configuration files for all different setups (i.e., n=4, n=7, n=10, n=13, n=16) and put them into the corresponding directory `hotstuff/deploy/exp2-baseline-azure/conf/{server number}/` and `hotstuff/deploy/exp2-archipelago-azure/conf-archipelago/{server number}/`. Generate and replace the configuration files before you proceed.
 
@@ -293,7 +293,7 @@ The experiments are the same as **step1.1** and **step1.2**, but we use the `nlo
 
 ### Validate claim4
 
-The experiments are the same as **step1.3** and **step1.4**, but you need to generate the configuration files for your geo-distributed setting. Make sure that the IPs in your configurations are accessible to each other (e.g., there could be firewall issues which we met in Azure).
+The experiments are the same as **step1.3** and **step1.4**, but you need to generate the configuration files for your geo-distributed setting. Make sure that the IPs in your configurations are accessible to each other using TCP (e.g., there could be firewall issues which we met in Azure).
 
 ## Troubleshooting
 
