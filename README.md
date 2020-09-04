@@ -297,6 +297,8 @@ user1@driver: cd ~/hotstuff
 user1@driver: python process.py order hotstuff/deploy/exp3-archipelago-azure/data
 ```
 
+Again, the throughput is the total number of transactions reported by `process.py` devided by 30, the duration of the experiments.
+
 ### Validate claim3
 
 The experiments are the same as **step1.1** and **step1.2**, but we use the `nload` tool to monitor and record the network usage of a single server node.
