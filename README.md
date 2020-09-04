@@ -120,7 +120,7 @@ user1@driver: mkdir ./deploy/exp1-archipelago-azure/log
 user1@driver: mkdir ./deploy/exp1-archipelago-azure/data
 
 # we assume that code has been built successfully on the driver machine
-# make sure that driver can ssh directly to all your machines
+# make sure that driver can ssh directly to all your machines (see ssh-copy-id)
 user1@driver: cd ~/hotstuff
 user1@driver: ./deploy.sh user1
 # the binary executables have been deployed on all the machines described in file `./hosts`
