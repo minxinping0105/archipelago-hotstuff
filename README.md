@@ -284,7 +284,7 @@ The raw data for Figure 7 is the table below and the claim to be validated is th
 | 7                 | 2                      | 2382               |
 
 
-> :warning: **[WARNING]** Read the example configuration files first before you generate them. Specifically, read `hotstuff/deploy/exp3-archipelago-azure/conf-archipelago/{server number}/{machine number}/hotstuff.gen.conf`. Generate and replace the configuration files before you proceed.
+> :warning: **[WARNING]** Read the example configuration files first before you generate them. Specifically, read `hotstuff/deploy/exp3-archipelago-azure/conf-archipelago/{server number}/{machine number}/hotstuff.gen.conf` and specifically notice the difference of IP address configuration. Generate and replace the configuration files; make the `log` and `data` directories and then deploy with `deploy.sh` before you proceed.
 
 The commands for Figure 7 are:
 
