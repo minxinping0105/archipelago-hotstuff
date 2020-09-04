@@ -64,6 +64,7 @@ user1@driver: ./deploy/exp1-archipelago-local/data.sh user1
 
 > :warning: **[WARNING]** Remember to prepare the `log` and `data` directories for **all** future experiments. Remember to replace the `user1` in the commands to your own username.
 
+
 ### generate configuration files
 
 The Python script `hotstuff/scripts/gen_conf.py` generates the configuration files. First, modify the IP addresses of the server nodes according to your experiment environment.
@@ -172,6 +173,9 @@ We made 4 claims which can be found in Figure 3 of our submission. We copy-and-p
 | Archipelago-HS (beta = 700) | 160060             | 13.6 (o), 97.1 (c) | step1.4    |
 
 In claim1, we say that Archipelago achieves higher throughput than baseline (1479 > 526; 160060 > 92933) at the cost of increased latency (87.1 > 7.1). But latencies are comparable (83.8 vs. 97.1) when batching commands (beta is the batch size). 
+
+
+> :warning: **[WARNING]**  Generate and replace the configuration files in `hotstuff/deploy/exp1-baseline-azure` before you proceed.
 
 #### step1.1
 ```shell
