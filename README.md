@@ -303,7 +303,7 @@ The reason is likely to be missing `log` or `data` directories. Make sure that y
 
 ### the log files exist but there are no log entries in them
 
-The reason is likely to be wrong configuration. Compare the configuration files you generated and the files we have provided in this repo, including `hotstuff/deploy/{exp-dir}/conf*/*`, `hotstuff/deploy/{exp-dir}/client.hosts` and `hotstuff/deploy/{exp-dir}/server.hosts`. 
+The reason is likely to be wrong configuration (e.g., wrong IP addresses or wrong order of IPs in server.hosts). Compare the configuration files you generated and the files we have provided in this repo, including `hotstuff/deploy/{exp-dir}/conf*/*`, `hotstuff/deploy/{exp-dir}/client.hosts` and `hotstuff/deploy/{exp-dir}/server.hosts`. 
 
 ### the ordering phase log file contains many more entries than my consensus phase log
 
