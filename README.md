@@ -221,6 +221,8 @@ user1@driver: python process.py exec hotstuff/deploy/exp1-archipelago-azure/data
 
 - redo step1.2; deploy with `deploy.sh` again since configuration is modified.
 
+> :warning: **[WARNING]** Sometimes OS may kill Archipelago before it finishes writing the log file, leading to problems in `process.py`. You may run the experiments again or see troubleshooting for help.
+
 
 ### Validate claim2
 
