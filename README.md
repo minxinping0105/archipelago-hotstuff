@@ -155,11 +155,11 @@ We made 4 claims which can be found in Figure 3 of our submission. We copy-and-p
 
 - **claim4**: A geo-distributed deployment increases latencies, but Archipelago’s peak throughput remains similar to a single datacenter setting.
 
-> :warning: The idea of "scale up" may be confused in our submission version. Several reviewers have given us feedback and we will revise our writing.
+> :warning: The idea of "scale up" may be confusing in our submission version. Several reviewers have given us feedback and we will revise our writing.
 
 ### Validating claim1
 
-> :warning: The could instance we used for our submission were deleted by Azure. We are using a similar instance for revision now and here are the numbers on this instance. They are similar but not completely the same as our Figure 4 in the submission. 
+> :warning: The cloud instance we used for our submission were deleted by Azure. We are using a similar instance for revision now and here are the numbers on this instance. They are similar but not completely the same as our Figure 4 in the submission. 
 
 |                             | throughput | latency | validation |
 |-----------------------------|------------|---------|------------|
@@ -172,27 +172,27 @@ In claim1, we say that Archipelago achieves higher throughput than baseline (147
 
 #### step1.1
 ```shell
-cd ~/hotstuff/hotstuff
-./deploy/exp1-baseline-azure/run_server.sh user1
-./deploy/exp1-baseline-azure/run_client.sh user1 4 30
-./deploy/exp1-baseline-azure/data.sh user1
-cd ~/hotstuff
+user1@driver: cd ~/hotstuff/hotstuff
+user1@driver: ./deploy/exp1-baseline-azure/run_server.sh user1
+user1@driver: ./deploy/exp1-baseline-azure/run_client.sh user1 4 30
+user1@driver: ./deploy/exp1-baseline-azure/data.sh user1
+user1@driver: cd ~/hotstuff
 # process data
-python process.py client hotstuff/deploy/exp1-baseline-azure/data
+user1@driver: python process.py client hotstuff/deploy/exp1-baseline-azure/data
 ```
 
 Note: throughput is the number of transactions reported by process.py divided by 30 (i.e., the time interval of the experiment).
 
 #### step1.2
 ```shell
-cd ~/hotstuff/hotstuff
-./deploy/exp1-archipelago-azure/run_server.sh user1
-./deploy/exp1-archipelago-azure/run_client.sh user1 4 30
-./deploy/exp1-archipelago-azure/data.sh user1
-cd ~/hotstuff
+user1@driver: cd ~/hotstuff/hotstuff
+user1@driver: ./deploy/exp1-archipelago-azure/run_server.sh user1
+user1@driver: ./deploy/exp1-archipelago-azure/run_client.sh user1 4 30
+user1@driver: ./deploy/exp1-archipelago-azure/data.sh user1
+user1@driver: cd ~/hotstuff
 # process data of ordering phase
-python process.py order hotstuff/deploy/exp1-baseline-azure/data
+user1@driver: python process.py order hotstuff/deploy/exp1-baseline-azure/data
 # process data of execution phase
-python process.py exec hotstuff/deploy/exp1-baseline-azure/data
+user1@driver: python process.py exec hotstuff/deploy/exp1-baseline-azure/data
 ```
 
