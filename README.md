@@ -59,7 +59,7 @@ user1@driver: ./deploy/exp1-archipelago-local/run_client.sh user1 4 30
 user1@driver: ./deploy/exp1-archipelago-local/data.sh user1
 # the experiment data is now in the following files
 # ./deploy/exp1-archipelago-local/data/client0.order.log is the ordering phase data
-# ./deploy/exp1-archipelago-local/data/client0.exec.log is the execution phase data
+# ./deploy/exp1-archipelago-local/data/client0.exec.log is the consensus phase data
 ```
 
 > :warning: **[WARNING]** Remember to prepare the `log` and `data` directories for **all** future experiments. Remember to replace the `user1` in the commands to your own username as well.
@@ -195,7 +195,7 @@ user1@driver: ./deploy/exp1-archipelago-azure/data.sh user1
 user1@driver: cd ~/hotstuff
 # process data of ordering phase
 user1@driver: python process.py order hotstuff/deploy/exp1-archipelago-azure/data
-# process data of execution phase
+# process data of consensus phase
 user1@driver: python process.py exec hotstuff/deploy/exp1-archipelago-azure/data
 ```
 
@@ -297,4 +297,22 @@ The experiments are the same as **step1.3** and **step1.4**, but you need to gen
 
 ## Troubleshooting
 
-TBD
+### `data.sh` does not retrieve any log files
+
+The reason is likely to be missing `log` or `data` directory. Make sure that you have created them in the experiment-specific directory and have deployed them to all the machines defined in `hosts`.
+
+### the log files exist but there are no log entries in them
+
+The reason is likely to be wrong configuration. Compare the configuration files you generated and the files we have provided in this repo, including `hotstuff/deploy/{exp-dir}/conf*/*`, `hotstuff/deploy/{exp-dir}/client.hosts` and `hotstuff/deploy/{exp-dir}/server.hosts`. 
+
+### the ordering phase log file contains many more entries than my consensus phase log
+
+The reason is likely to be insufficient hardware resources causing thread-scheduling starvation. This is likely to happen for local experiments but can also happen sometimes in a distributed setting. Potential solutions are
+
+- run the experiment again
+- increase the `stable-period` parameter in the configuration
+- decrease the `block-size` parameter in the configuration
+- if possible, use more CPU cores for each server machine (we use at least 4 cores)
+- if the latencies recorded in the consensus phase log show a routine pattern (e.g., repeat in a latency range), you may calculate the 50%, 90% and 99% latencies with `process.py` ignoring the length of the log file
+
+Another possibility is that the log file is too large (e.g., >150MB) and the OS decides to kill Archipelago before it finishes writing all the log entries. In this case, you may need to read the last few lines of `hotstuff/examples/archipelago_client.cpp`. Specifically, `elapsed.size()` and `elapsed_exec.size()` should be the number of log entries in the log files.
