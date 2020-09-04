@@ -170,6 +170,46 @@ class CommandDummy: public Command {
     }
 };
 
+// use the constructor to simulate the latency of hashing a batch of commands
+class BatchDummy: public Command {
+    uint32_t cid;
+    uint32_t n;
+
+    public:
+    uint256_t hash;
+    uint256_t batch[80];
+
+    BatchDummy() {}
+    ~BatchDummy() override {}
+
+    BatchDummy(uint32_t cid, uint32_t n):
+        cid(cid), n(n), hash(salticidae::get_hash(*this)) {}
+
+    void serialize(DataStream &s) const override {
+        s << cid << n;
+#if HOTSTUFF_CMD_REQSIZE > 0
+        s.put_data(payload, payload + sizeof(payload));
+#endif
+    }
+
+    void unserialize(DataStream &s) override {
+        s >> cid >> n;
+#if HOTSTUFF_CMD_REQSIZE > 0
+        auto base = s.get_data_inplace(HOTSTUFF_CMD_REQSIZE);
+        memmove(payload, base, sizeof(payload));
+#endif
+        hash = salticidae::get_hash(*this);
+    }
+
+    const uint256_t &get_hash() const override {
+        return hash;
+    }
+
+    bool verify() const override {
+        return true;
+    }
+};
+
 }
 
 #endif

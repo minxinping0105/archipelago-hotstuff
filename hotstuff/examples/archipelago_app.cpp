@@ -52,6 +52,7 @@ using hotstuff::EventContext;
 using hotstuff::NetAddr;
 using hotstuff::HotStuffError;
 using hotstuff::CommandDummy;
+using hotstuff::BatchDummy;
 using hotstuff::Finality;
 using hotstuff::Ordering1Finality;
 using hotstuff::Ordering2Finality;
@@ -83,6 +84,8 @@ class HotStuffApp: public HotStuff {
     uint32_t cmd_cnt;
     uint32_t exec_count, exec_sent;
     uint64_t exec_last_batch_clock; // stable point
+    uint32_t clnt_blk_size;
+    std::unordered_map<const uint256_t, int> batch_received;
     std::unordered_map<uint256_t,std::pair<uint32_t, uint32_t>> exec_client_rsp;
     std::vector<NetAddr> ledger_replicas;
     std::unordered_map<ReplicaID, LedgerNet::conn_t> ledger_conns;
@@ -156,6 +159,7 @@ class HotStuffApp: public HotStuff {
 
     public:
     HotStuffApp(uint32_t blk_size,
+                uint32_t clnt_blk_size,
                 uint32_t stable_period,
                 double stat_period,
                 double impeach_timeout,
@@ -316,7 +320,10 @@ int main(int argc, char **argv) {
     clinet_config
         .burst_size(opt_cliburst->get())
         .nworker(opt_clinworker->get());
-    papp = new HotStuffApp(opt_blk_size->get(),
+    papp = new HotStuffApp(//opt_blk_size->get(),
+                           // the batch logic of archipelago is in function client_ordering1_request_cmd_handler in this file
+                           1,
+                           opt_blk_size->get(),
                            opt_stable_period->get(),
                            opt_stat_period->get(),
                            opt_imp_timeout->get(),
@@ -358,6 +365,7 @@ int main(int argc, char **argv) {
 }
 
 HotStuffApp::HotStuffApp(uint32_t blk_size,
+                         uint32_t clnt_blk_size,
                          uint32_t stable_period,
                          double stat_period,
                          double impeach_timeout,
@@ -373,7 +381,7 @@ HotStuffApp::HotStuffApp(uint32_t blk_size,
                          const std::vector<NetAddr>& _ledger_replicas):
     HotStuff(blk_size, _idx, raw_privkey,
             plisten_addr, std::move(pmaker), ec, nworker, repnet_config),
-    stable_period(stable_period), idx(_idx), cmd_cnt(0), exec_count(0), exec_sent(0), exec_last_batch_clock(0),
+    stable_period(stable_period), idx(_idx), cmd_cnt(0), exec_count(0), exec_sent(0), exec_last_batch_clock(0), clnt_blk_size(clnt_blk_size),
     ledger_replicas(_ledger_replicas), 
     stat_period(stat_period),
     impeach_timeout(impeach_timeout),
@@ -451,7 +459,22 @@ void HotStuffApp::client_ordering1_request_cmd_handler(MsgOrdering1ReqCmd &&msg,
     const NetAddr addr = conn->get_addr();
     auto cmd = parse_cmd(msg.serialized);
     const auto &cmd_hash = cmd->get_hash();
-    HOTSTUFF_LOG_DEBUG("processing %s", std::string(*cmd).c_str());
+
+    if (batch_received.count(cmd_hash)) {
+        // already in batch
+        batch_received[cmd_hash]++;
+    } else {
+        // new in batch
+        batch_received[cmd_hash] = 1;
+    }
+
+    if (batch_received[cmd_hash] < clnt_blk_size)
+        return;
+
+    BatchDummy b;
+
+    HOTSTUFF_LOG_DEBUG("processing %s with batch hash %s", std::string(*cmd).c_str(), get_hex10(b.hash));
+    
     exec_ordering1(cmd_hash, [this, addr](Ordering1Finality fin) {
         ordering1_queue.enqueue(std::make_pair(fin, addr));
     });

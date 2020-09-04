@@ -12,9 +12,9 @@ else
     do
         echo "deploy code on machine ${machine}"
 
-        rsync -rtuv ./hotstuff/examples $1@${machine}:/home/$1/hotstuff/hotstuff/
+        rsync -rtuv ./hotstuff/examples $1@${machine}:/home/$1/hotstuff/hotstuff/ 
 
-	    rsync -rtuv ./hotstuff/deploy $1@${machine}:/home/$1/hotstuff/hotstuff/ --exclude './hotstuff/deploy/*/data/*'
+	    rsync -rtuv ./hotstuff/deploy $1@${machine}:/home/$1/hotstuff/hotstuff/
 
         #scp ./install_deps.sh $1@${machine}:/home/$1/hotstuff/
 

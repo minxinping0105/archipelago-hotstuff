@@ -68,6 +68,8 @@ struct Request {
     Request(const command_t &cmd): cmd(cmd), confirmed(0), ordering_rtt1(0), ordering_rtt2(0), ordering_rtt3(0) { et.start(); et_exec.start(); }
 };
 
+int BATCH_SIZE;
+int count_order, count_exec;
 using Net = salticidae::MsgNetwork<opcode_t>;
 
 std::unordered_map<ReplicaID, Net::conn_t> conns;
@@ -86,7 +88,11 @@ bool try_send(bool check = true) {
     {
         auto cmd = new CommandDummy(cid, cnt++);
         MsgOrdering1ReqCmd msg(*cmd);
-        for (auto &p: conns) mn.send_msg(msg, p.second);
+        //for (auto &p: conns) mn.send_msg(msg, p.second);
+        
+        for (int i = 0; i < BATCH_SIZE; i++) {
+            for (auto &p: conns) mn.send_msg(msg, p.second);
+        }
 #ifndef HOTSTUFF_ENABLE_BENCHMARK
         HOTSTUFF_LOG_INFO("send new cmd %.10s",
                             get_hex(cmd->get_hash()).c_str());
@@ -166,7 +172,11 @@ void client_ordering2_resp_cmd_handler(MsgOrdering2RespCmd &&msg, const Net::con
 #else
     struct timeval tv;
     gettimeofday(&tv, nullptr);
-    elapsed.push_back(std::make_pair(tv, et.elapsed_sec));
+    //elapsed.push_back(std::make_pair(tv, et.elapsed_sec));
+    count_order++;
+    for (int i = 0; i < BATCH_SIZE; i++)
+        elapsed.push_back(std::make_pair(tv, et.elapsed_sec));
+
     // for debug
     //fprintf(stdout, "got %s, timestamps: %s\n", std::string(get_hex10(cmd_hash)).c_str(), std::string(get_hex10(msg.timestamp)).c_str());
 #endif
@@ -193,7 +203,11 @@ void client_ordering_exec_resp_handler(MsgConsensusRespClientCmd &&msg, const Ne
 #else
     struct timeval tv;
     gettimeofday(&tv, nullptr);
-    elapsed_exec.push_back(std::make_pair(tv, et_exec.elapsed_sec));
+    //elapsed_exec.push_back(std::make_pair(tv, et_exec.elapsed_sec));
+    count_exec++;
+    for (int i = 0; i < BATCH_SIZE; i++)
+        elapsed_exec.push_back(std::make_pair(tv, et_exec.elapsed_sec));
+
     // for debug
     //fprintf(stdout, "got %s, timestamps: %s\n", std::string(get_hex10(cmd_hash)).c_str(), "303030000");
 #endif
@@ -213,6 +227,7 @@ int main(int argc, char **argv) {
     std::string execlogfile(argv[3]);
     //Config config("hotstuff.conf");
 
+    auto opt_blk_size = Config::OptValInt::create(1);
     auto opt_idx = Config::OptValInt::create(0);
     auto opt_replicas = Config::OptValStrVec::create();
     auto opt_max_iter_num = Config::OptValInt::create(100);
@@ -231,12 +246,15 @@ int main(int argc, char **argv) {
     mn.reg_handler(client_ordering_exec_resp_handler);
     mn.start();
 
+    config.add_opt("block-size", opt_blk_size, Config::SET_VAL);
     config.add_opt("idx", opt_idx, Config::SET_VAL);
     config.add_opt("cid", opt_cid, Config::SET_VAL);
     config.add_opt("replica", opt_replicas, Config::APPEND);
     config.add_opt("iter", opt_max_iter_num, Config::SET_VAL);
     config.add_opt("max-async", opt_max_async_num, Config::SET_VAL);
     config.parse(argc, argv);
+
+    BATCH_SIZE = opt_blk_size->get();
     auto idx = opt_idx->get();
     max_iter_num = opt_max_iter_num->get();
     max_async_num = opt_max_async_num->get();
@@ -267,19 +285,8 @@ int main(int argc, char **argv) {
 
 #ifdef HOTSTUFF_ENABLE_BENCHMARK
 
-    printf("client write to order log file %s\n", orderlogfile.c_str());
-    printf("client write to exec log file %s\n", execlogfile.c_str());
-
-    freopen(orderlogfile.c_str(), "w", stdout);
-
-    for (const auto &e: elapsed)
-    {
-        char fmt[64];
-        struct tm *tmp = localtime(&e.first.tv_sec);
-        strftime(fmt, sizeof fmt, "%Y-%m-%d %H:%M:%S.%%06u [hotstuff info] %%.6f\n", tmp);
-        fprintf(stdout, fmt, e.first.tv_usec, e.second);
-    }
-
+    printf("client write to order log file %s, %lu entries\n", orderlogfile.c_str(), elapsed.size());
+    printf("client write to exec log file %s, %lu entries\n", execlogfile.c_str(), elapsed_exec.size());
 
     freopen(execlogfile.c_str(), "w", stdout);
 
@@ -290,6 +297,18 @@ int main(int argc, char **argv) {
         strftime(fmt, sizeof fmt, "%Y-%m-%d %H:%M:%S.%%06u [hotstuff info] %%.6f\n", tmp);
         fprintf(stdout, fmt, e.first.tv_usec, e.second);
     }
+
+    
+    freopen(orderlogfile.c_str(), "w", stdout);
+
+    for (const auto &e: elapsed)
+    {
+        char fmt[64];
+        struct tm *tmp = localtime(&e.first.tv_sec);
+        strftime(fmt, sizeof fmt, "%Y-%m-%d %H:%M:%S.%%06u [hotstuff info] %%.6f\n", tmp);
+        fprintf(stdout, fmt, e.first.tv_usec, e.second);
+    }
+
 
     fclose(stdout);
 
