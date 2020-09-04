@@ -312,7 +312,7 @@ The reason is likely to be insufficient hardware resources causing thread-schedu
 - run the experiment again
 - increase the `stable-period` parameter in the configuration
 - decrease the `block-size` parameter in the configuration
-- if possible, use more CPU cores for each server machine (we use at least 4 cores)
+- if possible, use more CPU cores for each server machine (we use at least 4 cores) and increase the size of thread pool (search for `nworker` in `hotstuff/examples/archipelago_app.cpp`)
 - if the latencies recorded in the consensus phase log show a routine pattern (e.g., repeat in a latency range), you may calculate the 50%, 90% and 99% latencies with `process.py` ignoring the length of the log file
 
 Another possibility is that the log file is too large (e.g., >150MB) and the OS decides to kill Archipelago before it finishes writing all the log entries. In this case, you may need to read the last few lines of `hotstuff/examples/archipelago_client.cpp`. Specifically, `elapsed.size()` and `elapsed_exec.size()` should be the number of log entries in the log files.
