@@ -170,9 +170,9 @@ We made 4 claims which can be found in Figure 3 of our submission. We copy-and-p
 | HotStuff (beta = 1)         | 526                | 7.1                | step1.1    |
 | HotStuff (beta = 2000)      | 92933              | 83.8               | step1.3    |
 | Archipelago-HS (beta = 1)   | 1479               | 2.5 (o) 87.1 (c)   | step1.2    |
-| Archipelago-HS (beta = 700) | 160060             | 13.6 (o), 97.1 (c) | step1.4    |
+| Archipelago-HS (beta = 700) | 160060             | 13.6 (o), 87.1 (c) | step1.4    |
 
-In claim1, we say that Archipelago achieves higher throughput than baseline (1479 > 526; 160060 > 92933) at the cost of increased latency (87.1 > 7.1). But latencies are comparable (83.8 vs. 97.1) when batching commands (beta is the batch size). 
+In claim1, we say that Archipelago achieves higher throughput than baseline (1479 > 526; 160060 > 92933) at the cost of increased latency (87.1 > 7.1). But latencies are comparable (83.8 vs. 87.1) when batching commands (beta is the batch size). 
 
 
 #### step1.1
