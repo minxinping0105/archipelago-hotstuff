@@ -175,7 +175,7 @@ We made 4 claims which can be found in Figure 3 of our submission. We copy-and-p
 In claim1, we say that Archipelago achieves higher throughput than baseline (1479 > 526; 160060 > 92933) at the cost of increased latency (87.1 > 7.1). But latencies are comparable (83.8 vs. 97.1) when batching commands (beta is the batch size). 
 
 
-> :warning: **[WARNING]**  Generate and replace the configuration files in `hotstuff/deploy/exp1-baseline-azure` and deploy with `deploy.sh` before you proceed.
+> :warning: **[WARNING]**  Generate and replace the configuration files in `hotstuff/deploy/exp1-baseline-azure`. Make directories `log` and `data` accordingly. Then deploy with `deploy.sh` before you proceed.
 
 #### step1.1
 ```shell
