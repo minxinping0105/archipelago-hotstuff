@@ -244,9 +244,9 @@ We conduct the expriments of Figure 6 in our new cloud instance and below is the
 | n=13 | 311                         | 12.6                | 796                            | 4.9                          |
 | n=16 | 270                         | 14.6                | 690                            | 5.7                          |
 
-Claim2 says that Archipelago's throughput degrades similarly to its baseline because 581/270=2.15 and 1579/690=2.29 -- the ratio is similar.
+Claim2 says that Archipelago's throughput degrades similarly to its baseline because the degrade ratio 581/270=2.15 and 1579/690=2.29 is similar.
 
-> :warning: **[WARNING]** You need to generate the configuration files for all different setups (i.e., n=4, n=7, n=10, n=13, n=16) and put them into the corresponding directory `hotstuff/deploy/exp2-baseline-azure/conf/{server number}/` and `hotstuff/deploy/exp2-archipelago-azure/conf-archipelago/{server number}/`. Generate and replace the configuration files before you proceed.
+> :warning: **[WARNING]** You need to generate the configuration files for all different setups (i.e., n=4, n=7, n=10, n=13, n=16) and put them into the corresponding directory `hotstuff/deploy/exp2-baseline-azure/conf/{server number}/` and `hotstuff/deploy/exp2-archipelago-azure/conf-archipelago/{server number}/`. Generate and replace the configuration files; make the `log` and `data` directories and then deploy with `deploy.sh` before you proceed.
 
 Every point in Figure 6 is a separate experiment. The commands for baseline HotStuff are:
 
