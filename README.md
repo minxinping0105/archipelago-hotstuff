@@ -299,7 +299,7 @@ The experiments are the same as **step1.3** and **step1.4**, but you need to gen
 
 ### `data.sh` does not retrieve any log files
 
-The reason is likely to be missing `log` or `data` directory. Make sure that you have created them in the experiment-specific directory and have deployed them to all the machines defined in `hosts`.
+The reason is likely to be missing `log` or `data` directories. Make sure that you have created them in the experiment-specific directory and have deployed them to all the machines defined in `hosts`.
 
 ### the log files exist but there are no log entries in them
 
@@ -307,7 +307,7 @@ The reason is likely to be wrong configuration. Compare the configuration files 
 
 ### the ordering phase log file contains many more entries than my consensus phase log
 
-The reason is likely to be insufficient hardware resources causing thread-scheduling starvation. This is likely to happen for local experiments but can also happen sometimes in a distributed setting. Potential solutions are
+The reason is likely to be insufficient hardware resources causing thread-scheduling starvation. This is likely to happen for local experiments since it simulates at least 4 server nodes on the same machine. But sometimes this can also happen in a distributed setting. Potential solutions are
 
 - run the experiment again
 - increase the `stable-period` parameter in the configuration
