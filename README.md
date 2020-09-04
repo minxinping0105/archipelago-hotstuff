@@ -99,7 +99,7 @@ You are now ready to run experiment1 in your own distributed environment.
 > :warning: **[WARNING]** We assume that different servers have different IP addresses. For other experiments, you will need to modify `client.hosts`, `server.hosts` and `conf*/*` similarly. Configurations for different experiments are slightly different and we have provided the reference version.
 
 
-# Step3: build and run in your distributed environment (~15 minutes expected)
+### Step3: build and run in your distributed environment (~15 minutes expected)
 
 The following commands show how we conduct a basic throughput-latency experiment. First, you need to install dependencies on all your machines.
 
