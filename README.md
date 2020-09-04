@@ -189,7 +189,7 @@ user1@driver: cd ~/hotstuff
 user1@driver: python process.py client hotstuff/deploy/exp1-baseline-azure/data
 ```
 
-Note: throughput is the number of transactions reported by process.py divided by 30 (i.e., the time interval of the experiment).
+Note: throughput is the number of transactions reported by `process.py` divided by 30 (i.e., the time interval of the experiment).
 
 #### step1.2
 
