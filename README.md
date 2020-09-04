@@ -301,11 +301,11 @@ Again, the throughput is the total number of transactions reported by `process.p
 
 ### Validate claim3
 
-The experiments are the same as **step1.1** and **step1.2**, but we use the `nload` tool to monitor and record the network usage of a single server node.
+The experiments are the same as **step1.1** and **step1.2**, but we use the `nload` tool to monitor and record the network usage of a single server node. You may need to install the tool by `sudo apt install nload`.
 
 ### Validate claim4
 
-The experiments are the same as **step1.3** and **step1.4**, but you need to generate the configuration files for your geo-distributed setting. Make sure that the IPs in your configurations are accessible to each other using TCP (e.g., there could be firewall issues which we met in Azure).
+The experiments are the same as **step1.3** and **step1.4**, but you need to generate the configuration files for your geo-distributed environment. Make sure that the IPs in your configurations are accessible to each other using TCP/TSL (e.g., there could be firewall issues which we met in Azure).
 
 ## Troubleshooting
 
