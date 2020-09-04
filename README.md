@@ -140,4 +140,59 @@ user1@driver: ./deploy/exp1-archipelago-azure/data.sh user1
 # the data is now in ./deploy/exp1-archipelago-azure/data/client0.exec.log and ./deploy/exp1-archipelago-azure/data/client0.order.log
 ```
 
-> :warning: **[WARNING]** Note that `exp1-archipelago-local` and `exp1-archipelago-azure` are different experiments. Type the one you want to conduct.
+> :warning: **[WARNING]** Note that `exp1-archipelago-local` and `exp1-archipelago-azure` are different experiments. Type the correct one you want to conduct.
+
+
+## Validating the Claims
+
+We made 4 claims which can be found in Figure 3 of our submission. We copy-and-paste here.
+
+- **claim1**: Archipelago achieves higher throughput than its baselines at the cost of increased latency (latencies are competitive when batching commands).
+
+- **claim2**: Archipelago’s throughput degrades similarly to its baselines when *n* increases, but Archipelago can scale up each node for higher throughput.
+
+- **claim3**: Archipelago incurs modest network overheads over its baselines.
+
+- **claim4**: A geo-distributed deployment increases latencies, but Archipelago’s peak throughput remains similar to a single datacenter setting.
+
+> :warning: The idea of "scale up" may be confused in our submission version. Several reviewers have given us feedback and we will revise our writing.
+
+### Validating claim1
+
+> :warning: The could instance we used for our submission were deleted by Azure. We are using a similar instance for revision now and here are the numbers on this instance. They are similar but not completely the same as our Figure 4 in the submission. 
+
+|                             | throughput | latency | validation |
+|-----------------------------|------------|---------|------------|
+| HotStuff (beta = 1)         | 526        | 7.1     | step1.1    |
+| HotStuff (beta = 2000)      | 92933      | 83.8    | step1.3   |
+| Archipelago-HS (beta = 1)   | 1479       | 2.5 (o) 87.1 (c) | step1.2 |
+| Archipelago-HS (beta = 700) | 160060     | 13.6 (o), 97.1 (c) | step1.4 |
+
+In claim1, we say that Archipelago achieves higher throughput than baseline (1479 > 526; 160060 > 92933) at the cost of increased latency (87.1 > 7.1). But latencies are comparable (83.8 vs. 97.1) when batching commands (beta is the batch size). 
+
+#### step1.1
+```shell
+cd ~/hotstuff/hotstuff
+./deploy/exp1-baseline-azure/run_server.sh user1
+./deploy/exp1-baseline-azure/run_client.sh user1 4 30
+./deploy/exp1-baseline-azure/data.sh user1
+cd ~/hotstuff
+# process data
+python process.py client hotstuff/deploy/exp1-baseline-azure/data
+```
+
+Note: throughput is the number of transactions reported by process.py divided by 30 (i.e., the time interval of the experiment).
+
+#### step1.2
+```shell
+cd ~/hotstuff/hotstuff
+./deploy/exp1-archipelago-azure/run_server.sh user1
+./deploy/exp1-archipelago-azure/run_client.sh user1 4 30
+./deploy/exp1-archipelago-azure/data.sh user1
+cd ~/hotstuff
+# process data of ordering phase
+python process.py order hotstuff/deploy/exp1-baseline-azure/data
+# process data of execution phase
+python process.py exec hotstuff/deploy/exp1-baseline-azure/data
+```
+
