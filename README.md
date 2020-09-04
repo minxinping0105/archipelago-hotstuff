@@ -4,9 +4,9 @@ This repo contains our implementation of Archipelago on top of HotStuff. Please 
 
 ## Table of Contents
 
-- Get Started (<1 hour expected with troubleshooting)
-- Validate the Claims
-- Troubleshooting
+- [Get Started](https://github.com/yhzhang0128/archipelago-hotstuff#get-started) (<1 hour expected with troubleshooting)
+- [Validate the Claims](https://github.com/yhzhang0128/archipelago-hotstuff#validate-the-claims)
+- [Troubleshooting](https://github.com/yhzhang0128/archipelago-hotstuff#troubleshooting)
 
 ## Get Started
 
