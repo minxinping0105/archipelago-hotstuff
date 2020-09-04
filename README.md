@@ -259,7 +259,7 @@ user1@driver: cd ~/hotstuff
 user1@driver: python process.py client hotstuff/deploy/exp2-baseline-azure/data
 ```
 
-Change the `{server number}` above to 4, 7, 10, 13 and 16 to conduct the experiments on different number of nodes. The commands for Archipelago-HotStuff are:
+Change the `{server number}` to 4, 7, 10, 13 and 16 to conduct the experiments on different number of nodes. The commands for Archipelago-HotStuff are similar:
 
 ```shell
 user1@driver: cd ~/hotstuff/hotstuff
