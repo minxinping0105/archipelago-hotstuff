@@ -248,7 +248,7 @@ Claim2 says that Archipelago's throughput degrades similarly to its baseline bec
 
 > :warning: **[WARNING]** You need to generate the configuration files for all different setups (i.e., n=4, n=7, n=10, n=13, n=16) and put them into the corresponding directory `hotstuff/deploy/exp2-baseline-azure/conf/{server number}/` and `hotstuff/deploy/exp2-archipelago-azure/conf-archipelago/{server number}/`. Generate and replace the configuration files; make the `log` and `data` directories and then deploy with `deploy.sh` before you proceed.
 
-Every point in Figure 6 is a separate experiment. The commands for baseline HotStuff are:
+Every row in the table comes from two experiments -- one for baseline and one for Archipelago. The commands for baseline HotStuff are:
 
 ```shell
 user1@driver: cd ~/hotstuff/hotstuff
