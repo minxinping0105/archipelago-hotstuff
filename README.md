@@ -220,7 +220,7 @@ user1@driver: python process.py exec hotstuff/deploy/exp1-archipelago-azure/data
 
 #### step2.1
 
-> :warning: **[WARNING]** You need to generate the configuration files for all different setups (i.e., n=4, n=7, n=10, n=13, n=16) and put them into the corresponding directory `hotstuff/hotstuff/deploy/exp2-baseline-azure/conf/{server number}`.
+> :warning: **[WARNING]** You need to generate the configuration files for all different setups (i.e., n=4, n=7, n=10, n=13, n=16) and put them into the corresponding directory `hotstuff/hotstuff/deploy/exp2-baseline-azure/conf/{server number}` and `hotstuff/hotstuff/deploy/exp2-archipelago-azure/conf-archipelago/{server number}`.
 
 Every point in Figure 6 is a separate experiment. The commands for baseline HotStuff are:
 
