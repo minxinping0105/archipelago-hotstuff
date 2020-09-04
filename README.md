@@ -4,13 +4,13 @@ This repo contains our implementation of Archipelago on top of HotStuff. Please 
 
 ## Table of Contents
 
-- Get Started
+- Get Started (within 1 hour expected with troubleshooting)
 - Validating the Claims
 - Troubleshooting
 
 ## Get Started
 
-### Step1: build and run on a single machine (~15 minutes expected)
+### Step1: build and run on a single machine
 
 > :warning: **[WARNING]** Build and run on a single machine can check whether the binary executable files are generated correctly, but the experiment results are not meaningful.
 
@@ -64,7 +64,7 @@ user1@driver: ./deploy/exp1-archipelago-local/data.sh user1
 
 > :warning: **[WARNING]** Remember to prepare the `log` and `data` directories for **all** future experiments. Remember to replace the `user1` in the commands to your own username as well.
 
-### Step2: generate configuration files (~10 minutes expected)
+### Step2: generate configuration files
 
 The Python script `hotstuff/scripts/gen_conf.py` generates the configuration files. First, you need to modify the IP addresses of the server nodes to your own environment.
 
@@ -99,7 +99,7 @@ You are now ready to run experiment1 in your own distributed environment.
 > :warning: **[WARNING]** We assume that different servers have different IP addresses. For other experiments, you will need to modify `client.hosts`, `server.hosts` and `conf*/*` similarly. Configurations for different experiments are slightly different and we have provided the reference version.
 
 
-### Step3: build and run in your distributed environment (~15 minutes expected)
+### Step3: build and run in your distributed environment
 
 The following commands show how we conduct a basic throughput-latency experiment. First, you need to install dependencies on all your machines.
 
