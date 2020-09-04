@@ -4,13 +4,13 @@ This repo contains our implementation of Archipelago on top of HotStuff. Please 
 
 ## Table of Contents
 
-- Get Started (within 1 hour expected with troubleshooting)
-- Validating the Claims
+- Get Started (<1 hour expected with troubleshooting)
+- Validate the Claims
 - Troubleshooting
 
 ## Get Started
 
-### Step1: build and run on a single machine
+### build and run on a single machine
 
 > :warning: **[WARNING]** Build and run on a single machine can check whether the binary executable files are generated correctly, but the experiment results are not meaningful.
 
@@ -23,7 +23,7 @@ user1@driver: cd
 # clone the repo
 user1@driver: git clone https://github.com/yhzhang0128/archipelago-hotstuff.git
 
-# name it as hotstuff (future commands and scripts assume this directory name)
+# name the directory as hotstuff (future commands and scripts assume this directory name)
 user1@driver: mv archipelago-hotstuff hotstuff
 
 # install the dependencies
@@ -38,13 +38,13 @@ Below are the build and run commands.
 user1@driver: cd ~/hotstuff/hotstuff
 user1@driver: ./build.sh
 
-# prepare directory for log and data
+# prepare directories for log and data
 user1@driver: mkdir ./deploy/exp1-archipelago-local/log
 user1@driver: mkdir ./deploy/exp1-archipelago-local/data
 
 # make sure that you can ssh directly to your local machine
 # i.e., ssh user1@127.0.0.1 works without typing passwords or something
-# run servers; change user1 to your own username
+# run servers; change user1 below to your own username
 user1@driver: ./deploy/exp1-archipelago-local/run_server.sh user1
 # feel free to type some enters to continue
 
@@ -57,16 +57,16 @@ user1@driver: ./deploy/exp1-archipelago-local/run_client.sh user1 4 30
 
 # collect the experiment data
 user1@driver: ./deploy/exp1-archipelago-local/data.sh user1
-# the experiment data is now in client0.exec.log and client0.order.log
-# ./deploy/exp1-archipelago-local/data/client0.order.log is the ordering phase log
-# ./deploy/exp1-archipelago-local/data/client0.exec.log is the execution phase log
+# the experiment data is now in the following files
+# ./deploy/exp1-archipelago-local/data/client0.order.log is the ordering phase data
+# ./deploy/exp1-archipelago-local/data/client0.exec.log is the execution phase data
 ```
 
 > :warning: **[WARNING]** Remember to prepare the `log` and `data` directories for **all** future experiments. Remember to replace the `user1` in the commands to your own username as well.
 
-### Step2: generate configuration files
+### generate configuration files
 
-The Python script `hotstuff/scripts/gen_conf.py` generates the configuration files. First, you need to modify the IP addresses of the server nodes to your own environment.
+The Python script `hotstuff/scripts/gen_conf.py` generates the configuration files. First, modify the IP addresses of the server nodes according to your experiment environment.
 
 ```python
     # in hotstuff/scripts/gen_conf.py
@@ -96,12 +96,12 @@ user1@driver: vim ./deploy/exp1-archipelago-azure/server.hosts
 
 You are now ready to run experiment1 in your own distributed environment.
 
-> :warning: **[WARNING]** We assume that different servers have different IP addresses. For other experiments, you will need to modify `client.hosts`, `server.hosts` and `conf*/*` similarly. Configurations for different experiments are slightly different and we have provided the reference version.
+> :warning: **[WARNING]** The Python script assumes that different servers have different IP addresses. For other experiments, you will need to modify `client.hosts`, `server.hosts` and the `conf*/*` directory similarly. Configurations for different experiments are slightly different and we have provided the reference version.
 
 
-### Step3: build and run in your distributed environment
+### build and run in your distributed environment
 
-The following commands show how we conduct a basic throughput-latency experiment. First, you need to install dependencies on all your machines.
+The following commands show how to conduct a basic throughput-latency experiment. First, you need to install dependencies on all your machines.
 
 ```shell
 # run install_deps.sh on all your machines
@@ -111,10 +111,10 @@ user1@{machine_name}: {some_path}/install_deps.sh
 You can deploy the code and run distributed experiments from your driver machine.
 
 ```shell
-# scripts we provide deploy clients on 10.0.0.9 and servers on 10.0.0.5, 10.0.0.6, 10.0.0.7 and 10.0.0.8
-# these IPs are defined in the file ./deploy/exp1-archipelago-azure/client.hosts and ./deploy/exp1-archipelago-azure/server.hosts
+# our default scripts deploy clients on 10.0.0.9 and servers on 10.0.0.5, 10.0.0.6, 10.0.0.7 and 10.0.0.8
+# these IPs are defined in hotstuff/deploy/exp1-archipelago-azure/client.hosts and hotstuff/deploy/exp1-archipelago-azure/server.hosts
 
-# prepare directory for log and data
+# prepare directories for log and data
 user1@driver: cd ~/hotstuff/hotstuff
 user1@driver: mkdir ./deploy/exp1-archipelago-azure/log
 user1@driver: mkdir ./deploy/exp1-archipelago-azure/data
@@ -143,9 +143,9 @@ user1@driver: ./deploy/exp1-archipelago-azure/data.sh user1
 > :warning: **[WARNING]** Note that `exp1-archipelago-local` and `exp1-archipelago-azure` are different experiments. Type the correct one you want to conduct.
 
 
-## Validating the Claims
+## Validate the Claims
 
-We made 4 claims which can be found in Figure 3 of our submission. We copy-and-paste here.
+We made 4 claims which can be found in Figure 3 of our submission. We copy-and-paste them here.
 
 - **claim1**: Archipelago achieves higher throughput than its baselines at the cost of increased latency (latencies are competitive when batching commands).
 
@@ -159,9 +159,9 @@ We made 4 claims which can be found in Figure 3 of our submission. We copy-and-p
 
 > :warning: Make sure to create the `log` and `data` directories for each experiment described below. 
 
-### Validating claim1
+### Validate claim1
 
-> :warning: The cloud instance we used for our submission were deleted by Azure. We are using a similar instance for revision now and here are the numbers on this instance. They are similar but not completely the same as our Figure 4 in the submission. 
+> :warning: The cloud instance we used for our submission were deleted by Azure. We are using a similar instance for revision now and here are the numbers on this new cloud instance. They are similar but not completely the same as our Figure 4 in the submission. 
 
 
 |                             | throughput | latency | validation |
@@ -201,9 +201,9 @@ user1@driver: python process.py exec hotstuff/deploy/exp1-archipelago-azure/data
 
 #### step1.3
 
-- modify file `hotstuff/hotstuff/deploy/exp1-baseline-azure/conf/hotstuff.gen.conf` changing `block-size` to 2000
+- modify file `hotstuff/deploy/exp1-baseline-azure/conf/hotstuff.gen.conf` changing `block-size` to 2000
 
-- modify file `hotstuff/hotstuff/deploy/exp1-baseline-azure/single_client.sh` changing `--max-async` to 8000
+- modify file `hotstuff/deploy/exp1-baseline-azure/single_client.sh` changing `--max-async` to 8000 (i.e., make sure that `max-async` is at least 4 times of `block-size`; this is the livenes requirement specific to HotStuff)
 
 - redo step1.1
 
@@ -214,16 +214,29 @@ user1@driver: python process.py exec hotstuff/deploy/exp1-archipelago-azure/data
 - redo step1.2
 
 
-### Validating claim2
+### Validate claim2
 
-|                             |  validation |
-|-----------------------------| -----------|
-| Archipelago’s throughput degrades similarly to its baselines when *n* increases | step2.1    |
-|  Archipelago can scale up each node for higher throughput      |  step2.2   |
+|                                                                                 | validation |
+|---------------------------------------------------------------------------------| -----------|
+| Archipelago’s throughput degrades similarly to its baselines when *n* increases |  step2.1   |
+| Archipelago can scale up each node for higher throughput                        |  step2.2   |
+
 
 #### step2.1
 
-> :warning: **[WARNING]** You need to generate the configuration files for all different setups (i.e., n=4, n=7, n=10, n=13, n=16) and put them into the corresponding directory `hotstuff/hotstuff/deploy/exp2-baseline-azure/conf/{server number}` and `hotstuff/hotstuff/deploy/exp2-archipelago-azure/conf-archipelago/{server number}`. Generate and replace the configuration files before you proceed.
+We conduct the expriments of Figure 6 in our new cloud instance and below is the raw data. The plot of this table looks basically the same as Figure 6 in our submission.
+
+|      | baseline throughput (cmd/s) | median latency (ms) | Archipelago throughput (cmd/s) | median ordering latency (ms) |
+|------|-----------------------------|---------------------|--------------------------------|------------------------------|
+| n=4  | 581                         | 6.7                 | 1579                           | 2.4                          |
+| n=7  | 469                         | 8.2                 | 1191                           | 3.3                          |
+| n=10 | 368                         | 10.7                | 944                            | 4.2                          |
+| n=13 | 311                         | 12.6                | 796                            | 4.9                          |
+| n=16 | 270                         | 14.6                | 690                            | 5.7                          |
+
+We say that Archipelago's throughput degrades similarly to its baseline because 581/270=2.15 and 1579/690=2.29 -- the ratio is similar.
+
+> :warning: **[WARNING]** You need to generate the configuration files for all different setups (i.e., n=4, n=7, n=10, n=13, n=16) and put them into the corresponding directory `hotstuff/hotstuff/deploy/exp2-baseline-azure/conf/{server number}/` and `hotstuff/hotstuff/deploy/exp2-archipelago-azure/conf-archipelago/{server number}/`. Generate and replace the configuration files before you proceed.
 
 Every point in Figure 6 is a separate experiment. The commands for baseline HotStuff are:
 
@@ -247,11 +260,21 @@ user1@driver: cd ~/hotstuff
 user1@driver: python process.py order hotstuff/deploy/exp2-archipelago-azure/data
 ```
 
-Change the `{server number}` above to 4, 7, 10, 13 and 16 to conduct the experiments on different number of nodes.
-
 #### step2.2
 
-> :warning: **[WARNING]** Read the example configuration files first before you generate them. Specifically, read `hotstuff/hotstuff/deploy/exp3-archipelago-azure/conf-archipelago/{server number}/{machine number}/hotstuff.gen.conf`. Generate and replace the configuration files before you proceed.
+The raw data for Figure 7 is the table below and the claim to be validated is that throughput grows linearly with {machine per server}.
+
+|  {server number}  |  {machine per server}  | throughput |
+|-------------------|------------------------|------------|
+| 4                 | 1                      | 1554       |
+| 4                 | 2                      | 3318       |
+| 4                 | 3                      | 4889       |
+| 4                 | 4                      | 6358       |
+| 7                 | 1                      | 1152       |
+| 7                 | 2                      | 2382       |
+
+
+> :warning: **[WARNING]** Read the example configuration files first before you generate them. Specifically, read `hotstuff/deploy/exp3-archipelago-azure/conf-archipelago/{server number}/{machine number}/hotstuff.gen.conf`. Generate and replace the configuration files before you proceed.
 
 The commands for Figure 7 are:
 
@@ -263,24 +286,14 @@ user1@driver: ./deploy/exp3-archipelago-azure/data.sh user1
 user1@driver: cd ~/hotstuff
 user1@driver: python process.py order hotstuff/deploy/exp3-archipelago-azure/data
 ```
-where the parameters are 
 
-|  {server number}  |  {machine per server}  |
-|-----------------------------| -----------|
-| 4 | 1   |
-| 4 | 2   |
-| 4 | 3   |
-| 4 | 4   |
-| 7 | 1   |
-| 7 | 2   |
+### Validate claim3
 
-### Validating claim3
-
-This is the same as **step1.1** and **step1.2**, but we use the `nload` tool to monitor the network usage of a single server node.
+The experiments are the same as **step1.1** and **step1.2**, but we use the `nload` tool to monitor and record the network usage of a single server node.
 
 ### Validating claim4
 
-This is the same as **step1.3** and **step1.4**, but you need to generate the configuration files for your geo-distributed setting. Make sure that the IPs in your configurations are accessible to each other (e.g., there could be firewall issues).
+The experiments are the same as **step1.3** and **step1.4**, but you need to generate the configuration files for your geo-distributed setting. Make sure that the IPs in your configurations are accessible to each other (e.g., there could be firewall issues which we met in Azure).
 
 ## Troubleshooting
 
