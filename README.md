@@ -280,3 +280,5 @@ This is the same as **step1.1** and **step1.2**, but we use the `nload` tool to 
 This is the same as **step1.3** and **step1.4**, but you need to generate the configuration files for your geo-distributed setting. Make sure that the IPs in your configurations are accessible to each other (e.g., there could be firewall issues).
 
 ## Troubleshooting
+
+TBD
