@@ -1,0 +1,4 @@
+0:10.0.0.13:30000;40000	./conf-gen/hotstuff.gen-sec0.conf
+1:10.0.0.14:30000;40000	./conf-gen/hotstuff.gen-sec1.conf
+2:10.0.0.15:30000;40000	./conf-gen/hotstuff.gen-sec2.conf
+3:10.0.0.16:30000;40000	./conf-gen/hotstuff.gen-sec3.conf
