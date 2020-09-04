@@ -161,6 +161,8 @@ We made 4 claims which can be found in Figure 3 of our submission. We copy-and-p
 
 > :warning: The cloud instance we used for our submission were deleted by Azure. We are using a similar instance for revision now and here are the numbers on this instance. They are similar but not completely the same as our Figure 4 in the submission. 
 
+> :warning: Make sure to create the `log` and `data` directories for each experiment described below. 
+
 |                             | throughput | latency | validation |
 |-----------------------------|------------|---------|------------|
 | HotStuff (beta = 1)         | 526        | 7.1     | step1.1    |
