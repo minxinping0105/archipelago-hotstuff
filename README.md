@@ -157,7 +157,7 @@ We made 4 claims which can be found in Figure 3 of our submission. We copy-and-p
 
 > :warning: The idea of "scale up" may be confusing in our submission version. Several reviewers have given us feedback and we will revise our writing.
 
-> :warning: Make sure to create the `log` and `data` directories for each experiment described below. 
+> :warning: Make sure to create the `log` and `data` directories for each experiment described below. Make sure to replace the configuration files of each experiment and deploy with `deploy.sh` as described before for each experiment.
 
 ### Validate claim1
 
