@@ -191,9 +191,9 @@ user1@driver: ./deploy/exp1-archipelago-azure/run_client.sh user1 4 30
 user1@driver: ./deploy/exp1-archipelago-azure/data.sh user1
 user1@driver: cd ~/hotstuff
 # process data of ordering phase
-user1@driver: python process.py order hotstuff/deploy/exp1-baseline-azure/data
+user1@driver: python process.py order hotstuff/deploy/exp1-archipelago-azure/data
 # process data of execution phase
-user1@driver: python process.py exec hotstuff/deploy/exp1-baseline-azure/data
+user1@driver: python process.py exec hotstuff/deploy/exp1-archipelago-azure/data
 ```
 
 #### step1.3
@@ -239,13 +239,13 @@ Change the `{server number}` above to 4, 7, 10, 13 and 16 to conduct the experim
 ```shell
 user1@driver: cd ~/hotstuff/hotstuff
 user1@driver: ./deploy/exp2-archipelago-azure/run_server.sh user1 {server number}
-user1@driver: ./deploy/exp1-archipelago-azure/run_client.sh user1 4 30 {server number}
-user1@driver: ./deploy/exp1-archipelago-azure/data.sh user1
+user1@driver: ./deploy/exp2-archipelago-azure/run_client.sh user1 4 30 {server number}
+user1@driver: ./deploy/exp2-archipelago-azure/data.sh user1
 user1@driver: cd ~/hotstuff
 # process data of ordering phase
-user1@driver: python process.py order hotstuff/deploy/exp2-baseline-azure/data
+user1@driver: python process.py order hotstuff/deploy/exp2-archipelago-azure/data
 # process data of execution phase
-user1@driver: python process.py exec hotstuff/deploy/exp2-baseline-azure/data
+user1@driver: python process.py exec hotstuff/deploy/exp2-archipelago-azure/data
 ```
 
 Change the `{server number}` above to 4, 7, 10, 13 and 16 to conduct the experiments on different number of nodes.
