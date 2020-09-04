@@ -164,12 +164,12 @@ We made 4 claims which can be found in Figure 3 of our submission. We copy-and-p
 > :warning: The cloud instance we used for our submission were deleted by Azure. We are using a similar instance for revision now and here are the numbers on this new cloud instance. They are similar but not completely the same as our Figure 4 in the submission. 
 
 
-|                             | throughput | latency | validation |
-|-----------------------------|------------|---------|------------|
-| HotStuff (beta = 1)         | 526        | 7.1     | step1.1    |
-| HotStuff (beta = 2000)      | 92933      | 83.8    | step1.3   |
-| Archipelago-HS (beta = 1)   | 1479       | 2.5 (o) 87.1 (c) | step1.2 |
-| Archipelago-HS (beta = 700) | 160060     | 13.6 (o), 97.1 (c) | step1.4 |
+|                             | throughput (cmd/s) | latency (ms)       | validation |
+|-----------------------------|--------------------|--------------------|------------|
+| HotStuff (beta = 1)         | 526                | 7.1                | step1.1    |
+| HotStuff (beta = 2000)      | 92933              | 83.8               | step1.3    |
+| Archipelago-HS (beta = 1)   | 1479               | 2.5 (o) 87.1 (c)   | step1.2    |
+| Archipelago-HS (beta = 700) | 160060             | 13.6 (o), 97.1 (c) | step1.4    |
 
 In claim1, we say that Archipelago achieves higher throughput than baseline (1479 > 526; 160060 > 92933) at the cost of increased latency (87.1 > 7.1). But latencies are comparable (83.8 vs. 97.1) when batching commands (beta is the batch size). 
 
@@ -209,7 +209,7 @@ user1@driver: python process.py exec hotstuff/deploy/exp1-archipelago-azure/data
 
 #### step1.4
 
-- modify file `hotstuff/hotstuff/deploy/exp1-archipelago-azure/conf-archipelago/hotstuff.gen.conf` changing `block-size` to 700
+- modify file `hotstuff/deploy/exp1-archipelago-azure/conf-archipelago/hotstuff.gen.conf` changing `block-size` to 700
 
 - redo step1.2
 
@@ -236,7 +236,7 @@ We conduct the expriments of Figure 6 in our new cloud instance and below is the
 
 We say that Archipelago's throughput degrades similarly to its baseline because 581/270=2.15 and 1579/690=2.29 -- the ratio is similar.
 
-> :warning: **[WARNING]** You need to generate the configuration files for all different setups (i.e., n=4, n=7, n=10, n=13, n=16) and put them into the corresponding directory `hotstuff/hotstuff/deploy/exp2-baseline-azure/conf/{server number}/` and `hotstuff/hotstuff/deploy/exp2-archipelago-azure/conf-archipelago/{server number}/`. Generate and replace the configuration files before you proceed.
+> :warning: **[WARNING]** You need to generate the configuration files for all different setups (i.e., n=4, n=7, n=10, n=13, n=16) and put them into the corresponding directory `hotstuff/deploy/exp2-baseline-azure/conf/{server number}/` and `hotstuff/deploy/exp2-archipelago-azure/conf-archipelago/{server number}/`. Generate and replace the configuration files before you proceed.
 
 Every point in Figure 6 is a separate experiment. The commands for baseline HotStuff are:
 
@@ -264,14 +264,14 @@ user1@driver: python process.py order hotstuff/deploy/exp2-archipelago-azure/dat
 
 The raw data for Figure 7 is the table below and the claim to be validated is that throughput grows linearly with {machine per server}.
 
-|  {server number}  |  {machine per server}  | throughput |
-|-------------------|------------------------|------------|
-| 4                 | 1                      | 1554       |
-| 4                 | 2                      | 3318       |
-| 4                 | 3                      | 4889       |
-| 4                 | 4                      | 6358       |
-| 7                 | 1                      | 1152       |
-| 7                 | 2                      | 2382       |
+|  {server number}  |  {machine per server}  | throughput (cmd/s) |
+|-------------------|------------------------|--------------------|
+| 4                 | 1                      | 1554               |
+| 4                 | 2                      | 3318               |
+| 4                 | 3                      | 4889               |
+| 4                 | 4                      | 6358               |
+| 7                 | 1                      | 1152               |
+| 7                 | 2                      | 2382               |
 
 
 > :warning: **[WARNING]** Read the example configuration files first before you generate them. Specifically, read `hotstuff/deploy/exp3-archipelago-azure/conf-archipelago/{server number}/{machine number}/hotstuff.gen.conf`. Generate and replace the configuration files before you proceed.
@@ -291,7 +291,7 @@ user1@driver: python process.py order hotstuff/deploy/exp3-archipelago-azure/dat
 
 The experiments are the same as **step1.1** and **step1.2**, but we use the `nload` tool to monitor and record the network usage of a single server node.
 
-### Validating claim4
+### Validate claim4
 
 The experiments are the same as **step1.3** and **step1.4**, but you need to generate the configuration files for your geo-distributed setting. Make sure that the IPs in your configurations are accessible to each other (e.g., there could be firewall issues which we met in Azure).
 
